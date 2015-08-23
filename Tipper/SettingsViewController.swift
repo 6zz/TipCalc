@@ -38,7 +38,6 @@ class SettingsViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         defaults.setInteger(index, forKey: DEFAULT_TIPS_INDEX)
         defaults.synchronize()
-        println("set defaults index \(index)")
     }
 
 

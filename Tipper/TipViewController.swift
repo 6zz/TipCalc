@@ -57,7 +57,6 @@ class TipViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
 
-        println(sender)
         if sender as! NSObject == billField {
             defaults.setObject(billField.text, forKey: KEY_BILL_AMOUNT)
         }

@@ -46,7 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         var lastVisit = defaults.objectForKey(KEY_LAST_VISIT) as? NSDate
         
-        if lastVisit != nil && lastVisit?.timeIntervalSinceNow > -60 {
+        // reset bill amount after 10 minutes
+        if lastVisit != nil && lastVisit?.timeIntervalSinceNow > -600 {
             // blank out bill amount
             defaults.setObject("", forKey: KEY_BILL_AMOUNT)
         }
