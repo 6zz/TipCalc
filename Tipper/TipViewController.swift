@@ -22,6 +22,18 @@ class TipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        var defaults = NSUserDefaults.standardUserDefaults()
+        var lastVisit = defaults.objectForKey(KEY_LAST_VISIT) as? NSDate
+        
+        if lastVisit == nil {
+            // very first visit
+            defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
+        } else if lastVisit?.timeIntervalSinceNow < -600 {
+            // blank out bill amount
+            defaults.setObject("", forKey: KEY_BILL_AMOUNT)
+        }
+        defaults.synchronize()
+        
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00"
     }
@@ -35,7 +47,8 @@ class TipViewController: UIViewController {
         
         if billText != nil {
             billField.text = billText
-            onEditingChanged(billField)
+            // not really a billField manual change by user
+            onEditingChanged(NSNull())
         }
     }
     
@@ -55,10 +68,11 @@ class TipViewController: UIViewController {
         var total = billAmount + tip
         var formatter = NSNumberFormatter();
         var defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
 
         if sender as! NSObject == billField {
             defaults.setObject(billField.text, forKey: KEY_BILL_AMOUNT)
+            defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
+            defaults.synchronize()
         }
 
         formatter.numberStyle = .CurrencyStyle

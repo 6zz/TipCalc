@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         var defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
+        defaults.synchronize()
 
     }
 
@@ -40,17 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        var defaults = NSUserDefaults.standardUserDefaults()
-        if defaults.objectForKey(KEY_LAST_VISIT) == nil {
-            defaults.setObject(NSDate(), forKey: KEY_LAST_VISIT)
-        }
-        var lastVisit = defaults.objectForKey(KEY_LAST_VISIT) as? NSDate
-        
-        // reset bill amount after 10 minutes
-        if lastVisit != nil && lastVisit?.timeIntervalSinceNow > -600 {
-            // blank out bill amount
-            defaults.setObject("", forKey: KEY_BILL_AMOUNT)
-        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
